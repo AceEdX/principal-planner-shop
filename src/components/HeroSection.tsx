@@ -69,7 +69,7 @@ const HeroSection = () => {
             <div className="mt-10 flex items-center gap-6 text-sm opacity-80">
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-gold" />
-                <span>67 Pages</span>
+                <span>124 Pages</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-gold" />
