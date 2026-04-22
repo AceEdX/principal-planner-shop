@@ -23,7 +23,9 @@ const PrebookSection = () => {
     email: "",
     phone: "",
     school: "",
+    address: "",
     city: "",
+    pincode: "",
     quantity: 1,
   });
   const [loading, setLoading] = useState(false);
@@ -32,7 +34,7 @@ const PrebookSection = () => {
   const totalAmount = PRICE_CONFIG.salePrice * formData.quantity;
   const savings = (PRICE_CONFIG.originalPrice - PRICE_CONFIG.salePrice) * formData.quantity;
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -41,8 +43,8 @@ const PrebookSection = () => {
   };
 
   const handlePayment = () => {
-    if (!formData.name || !formData.email || !formData.phone) {
-      alert("Please fill in your name, email, and phone number.");
+    if (!formData.name || !formData.email || !formData.phone || !formData.address || !formData.city || !formData.pincode) {
+      alert("Please fill in all required fields (name, email, phone, address, city, pincode).");
       return;
     }
 
@@ -50,7 +52,7 @@ const PrebookSection = () => {
 
     const options = {
       key: RAZORPAY_KEY,
-      amount: totalAmount * 100, // Razorpay expects paise
+      amount: totalAmount * 100,
       currency: PRICE_CONFIG.currency,
       name: "AceEdX",
       description: `Principal's Handbook & Planner 2026-27 (x${formData.quantity})`,
@@ -66,7 +68,9 @@ const PrebookSection = () => {
       },
       notes: {
         school: formData.school,
+        address: formData.address,
         city: formData.city,
+        pincode: formData.pincode,
         quantity: formData.quantity.toString(),
       },
       theme: {
@@ -106,6 +110,9 @@ const PrebookSection = () => {
             <p className="font-body text-muted-foreground text-lg">
               Thank you, {formData.name}! Your copy of the Principal's Handbook & Planner is reserved.
               We'll send details to {formData.email}.
+            </p>
+            <p className="font-body text-sm text-muted-foreground mt-2">
+              Shipping to: {formData.address}, {formData.city} — {formData.pincode}
             </p>
             <p className="font-body text-sm text-gold mt-4 font-semibold">
               {PRICE_CONFIG.deliveryNote}
@@ -163,7 +170,7 @@ const PrebookSection = () => {
 
             <div className="p-8 space-y-5">
               {[
-                { icon: BookOpen, text: "67-page hardbound planner" },
+                { icon: BookOpen, text: "124-page paperback handbook & planner" },
                 { icon: ShieldCheck, text: "CBSE & NEP 2020 aligned content" },
                 { icon: Truck, text: "Free shipping across India" },
                 { icon: IndianRupee, text: "Secure Razorpay payment" },
@@ -198,17 +205,16 @@ const PrebookSection = () => {
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="space-y-5"
+            className="space-y-4"
           >
             {[
               { name: "name", label: "Full Name *", type: "text", placeholder: "Dr. Sharma" },
               { name: "email", label: "Email Address *", type: "email", placeholder: "principal@school.edu.in" },
               { name: "phone", label: "Phone Number *", type: "tel", placeholder: "+91 98765 43210" },
               { name: "school", label: "School Name", type: "text", placeholder: "Delhi Public School" },
-              { name: "city", label: "City", type: "text", placeholder: "New Delhi" },
             ].map((field) => (
               <div key={field.name}>
-                <label className="font-body text-sm font-medium text-foreground block mb-1.5">
+                <label className="font-body text-sm font-medium text-foreground block mb-1">
                   {field.label}
                 </label>
                 <input
@@ -217,13 +223,58 @@ const PrebookSection = () => {
                   placeholder={field.placeholder}
                   value={(formData as any)[field.name]}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 rounded-lg border border-border bg-card font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                  className="w-full px-4 py-2.5 rounded-lg border border-border bg-card font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
                 />
               </div>
             ))}
 
+            {/* Shipping Address */}
             <div>
-              <label className="font-body text-sm font-medium text-foreground block mb-1.5">
+              <label className="font-body text-sm font-medium text-foreground block mb-1">
+                Shipping Address *
+              </label>
+              <textarea
+                name="address"
+                placeholder="House/Flat No., Street, Locality"
+                value={formData.address}
+                onChange={handleChange}
+                rows={2}
+                className="w-full px-4 py-2.5 rounded-lg border border-border bg-card font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring resize-none"
+              />
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="font-body text-sm font-medium text-foreground block mb-1">
+                  City *
+                </label>
+                <input
+                  name="city"
+                  type="text"
+                  placeholder="New Delhi"
+                  value={formData.city}
+                  onChange={handleChange}
+                  className="w-full px-4 py-2.5 rounded-lg border border-border bg-card font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                />
+              </div>
+              <div>
+                <label className="font-body text-sm font-medium text-foreground block mb-1">
+                  Pincode *
+                </label>
+                <input
+                  name="pincode"
+                  type="text"
+                  placeholder="110001"
+                  value={formData.pincode}
+                  onChange={handleChange}
+                  maxLength={6}
+                  className="w-full px-4 py-2.5 rounded-lg border border-border bg-card font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="font-body text-sm font-medium text-foreground block mb-1">
                 Quantity
               </label>
               <input
@@ -232,7 +283,7 @@ const PrebookSection = () => {
                 min={1}
                 value={formData.quantity}
                 onChange={handleChange}
-                className="w-full px-4 py-3 rounded-lg border border-border bg-card font-body text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                className="w-full px-4 py-2.5 rounded-lg border border-border bg-card font-body text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
               />
             </div>
 
