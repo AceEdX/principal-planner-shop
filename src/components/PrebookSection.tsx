@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { ShieldCheck, Truck, BookOpen, Gift, IndianRupee } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
-const RAZORPAY_KEY = "rzp_test_XXXXXXXXXX"; // Replace with your Razorpay key
+const RAZORPAY_KEY = "rzp_live_AHbE0TTY4oTn7d";
 
 const PrebookSection = () => {
   const [priceConfig, setPriceConfig] = useState({
