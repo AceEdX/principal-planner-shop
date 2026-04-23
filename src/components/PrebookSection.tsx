@@ -64,7 +64,7 @@ const PrebookSection = () => {
     const options = {
       key: RAZORPAY_KEY,
       amount: totalAmount * 100,
-      currency: PRICE_CONFIG.currency,
+      currency: priceConfig.currency,
       name: "AceEdX",
       description: `Principal's Handbook & Planner 2026-27 (x${formData.quantity})`,
       image: "",
@@ -126,7 +126,7 @@ const PrebookSection = () => {
               Shipping to: {formData.address}, {formData.city} — {formData.pincode}
             </p>
             <p className="font-body text-sm text-gold mt-4 font-semibold">
-              {PRICE_CONFIG.deliveryNote}
+              {priceConfig.deliveryNote}
             </p>
           </motion.div>
         </div>
@@ -168,14 +168,14 @@ const PrebookSection = () => {
               </p>
               <div className="flex items-center justify-center gap-3">
                 <span className="font-body text-primary-foreground/50 line-through text-2xl">
-                  ₹{PRICE_CONFIG.originalPrice}
+                  ₹{priceConfig.originalPrice}
                 </span>
                 <span className="font-display text-5xl font-bold text-gold">
-                  ₹{PRICE_CONFIG.salePrice}
+                  ₹{priceConfig.salePrice}
                 </span>
               </div>
               <p className="font-body text-gold-light/80 text-sm mt-2">
-                You save ₹{PRICE_CONFIG.originalPrice - PRICE_CONFIG.salePrice} per copy!
+                You save ₹{priceConfig.originalPrice - priceConfig.salePrice} per copy!
               </p>
             </div>
 
@@ -206,7 +206,7 @@ const PrebookSection = () => {
               </div>
 
               <p className="font-body text-xs text-muted-foreground text-center">
-                {PRICE_CONFIG.deliveryNote}
+                {priceConfig.deliveryNote}
               </p>
             </div>
           </motion.div>
@@ -300,13 +300,13 @@ const PrebookSection = () => {
 
             <button
               onClick={handlePayment}
-              disabled={loading || !PRICE_CONFIG.prebookingOpen}
+              disabled={loading || !priceConfig.prebookingOpen}
               className="w-full gradient-gold text-navy font-body font-bold text-lg py-4 rounded-lg shadow-gold hover:scale-[1.02] transition-transform disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading
                 ? "Processing..."
-                : PRICE_CONFIG.prebookingOpen
-                ? `${PRICE_CONFIG.prebookLabel} — ₹${totalAmount}`
+                : priceConfig.prebookingOpen
+                ? `${priceConfig.prebookLabel} — ₹${totalAmount}`
                 : "Pre-Booking Closed"}
             </button>
 
