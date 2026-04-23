@@ -1,23 +1,34 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ShieldCheck, Truck, BookOpen, Gift, IndianRupee } from "lucide-react";
-
-// ==========================================
-// EDITABLE CONFIGURATION — Change these values!
-// ==========================================
-const PRICE_CONFIG = {
-  originalPrice: 999,    // Original MRP in INR
-  salePrice: 699,        // Pre-booking price in INR
-  currency: "INR",
-  prebookingOpen: true,   // Set to false to disable pre-booking
-  prebookLabel: "Pre-Book Now — Limited Copies!",
-  deliveryNote: "Expected dispatch: June 2026",
-};
+import { supabase } from "@/integrations/supabase/client";
 
 const RAZORPAY_KEY = "rzp_test_XXXXXXXXXX"; // Replace with your Razorpay key
-// ==========================================
 
 const PrebookSection = () => {
+  const [priceConfig, setPriceConfig] = useState({
+    originalPrice: 999,
+    salePrice: 699,
+    prebookingOpen: true,
+    deliveryNote: "Expected dispatch: June 2026",
+  });
+  const [configLoaded, setConfigLoaded] = useState(false);
+
+  useEffect(() => {
+    const fetchPricing = async () => {
+      const { data } = await supabase
+        .from("site_config")
+        .select("value")
+        .eq("key", "price_config")
+        .single();
+      if (data) {
+        setPriceConfig(data.value as typeof priceConfig);
+      }
+      setConfigLoaded(true);
+    };
+    fetchPricing();
+  }, []);
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -31,8 +42,8 @@ const PrebookSection = () => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
-  const totalAmount = PRICE_CONFIG.salePrice * formData.quantity;
-  const savings = (PRICE_CONFIG.originalPrice - PRICE_CONFIG.salePrice) * formData.quantity;
+  const totalAmount = priceConfig.salePrice * formData.quantity;
+  const savings = (priceConfig.originalPrice - priceConfig.salePrice) * formData.quantity;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
