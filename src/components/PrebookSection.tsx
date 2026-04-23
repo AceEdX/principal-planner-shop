@@ -174,14 +174,14 @@ const PrebookSection = () => {
                   ₹{priceConfig.salePrice}
                 </span>
               </div>
-              <p className="font-body text-gold-light/80 text-sm mt-2">
+              <p className="font-body text-white text-sm mt-2">
                 You save ₹{priceConfig.originalPrice - priceConfig.salePrice} per copy!
               </p>
             </div>
 
             <div className="p-8 space-y-5">
               {[
-                { icon: BookOpen, text: "124-page paperback handbook & planner" },
+                { icon: BookOpen, text: "130-page paperback handbook & planner" },
                 { icon: ShieldCheck, text: "CBSE & NEP 2020 aligned content" },
                 { icon: Truck, text: "Free shipping across India" },
                 { icon: IndianRupee, text: "Secure Razorpay payment" },
