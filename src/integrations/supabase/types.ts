@@ -14,6 +14,57 @@ export type Database = {
   }
   public: {
     Tables: {
+      prebook_orders: {
+        Row: {
+          address: string | null
+          amount: number
+          city: string | null
+          created_at: string
+          email: string
+          id: string
+          name: string
+          order_id: string | null
+          payment_id: string | null
+          phone: string | null
+          pincode: string | null
+          quantity: number
+          school: string | null
+          status: string
+        }
+        Insert: {
+          address?: string | null
+          amount: number
+          city?: string | null
+          created_at?: string
+          email: string
+          id?: string
+          name: string
+          order_id?: string | null
+          payment_id?: string | null
+          phone?: string | null
+          pincode?: string | null
+          quantity?: number
+          school?: string | null
+          status?: string
+        }
+        Update: {
+          address?: string | null
+          amount?: number
+          city?: string | null
+          created_at?: string
+          email?: string
+          id?: string
+          name?: string
+          order_id?: string | null
+          payment_id?: string | null
+          phone?: string | null
+          pincode?: string | null
+          quantity?: number
+          school?: string | null
+          status?: string
+        }
+        Relationships: []
+      }
       site_config: {
         Row: {
           id: string
