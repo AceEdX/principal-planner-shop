@@ -92,7 +92,7 @@ const PrebookSection = () => {
         name: "AceEdX",
         description: `Principal's Handbook & Planner 2026-27 (x${formData.quantity})`,
         handler: async function (response: any) {
-          // Send confirmation email
+          // Update order status to paid
           await supabase.functions.invoke('send-order-email', {
             body: {
               name: formData.name,
@@ -104,6 +104,7 @@ const PrebookSection = () => {
               pincode: formData.pincode,
               school: formData.school,
               paymentId: response.razorpay_payment_id,
+              orderId: orderData.orderId,
             },
           });
           setSuccess(true);

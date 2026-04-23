@@ -1,3 +1,5 @@
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
+
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
@@ -36,11 +38,7 @@ Deno.serve(async (req) => {
         'Authorization': `Basic ${auth}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        amount,
-        currency,
-        notes: notes || {},
-      }),
+      body: JSON.stringify({ amount, currency, notes: notes || {} }),
     })
 
     const orderData = await orderRes.json()
@@ -52,6 +50,26 @@ Deno.serve(async (req) => {
         { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       )
     }
+
+    // Save order to database with pending status
+    const supabase = createClient(
+      Deno.env.get('SUPABASE_URL')!,
+      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
+    )
+
+    await supabase.from('prebook_orders').insert({
+      name: notes?.name || '',
+      email: notes?.email || '',
+      phone: notes?.phone || '',
+      school: notes?.school || '',
+      address: notes?.address || '',
+      city: notes?.city || '',
+      pincode: notes?.pincode || '',
+      quantity: parseInt(notes?.quantity || '1'),
+      amount,
+      order_id: orderData.id,
+      status: 'pending',
+    })
 
     return new Response(
       JSON.stringify({ orderId: orderData.id, amount: orderData.amount, currency: orderData.currency }),
