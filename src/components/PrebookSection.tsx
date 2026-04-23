@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { ShieldCheck, Truck, BookOpen, Gift, IndianRupee } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
-const RAZORPAY_KEY = "rzp_live_AHbE0TTY4oTn7d";
+const RAZORPAY_KEY = "rzp_live_S9yItLCPCKdBpt";
 
 const PrebookSection = () => {
   const [priceConfig, setPriceConfig] = useState({
@@ -53,7 +53,7 @@ const PrebookSection = () => {
     }));
   };
 
-  const handlePayment = () => {
+  const handlePayment = async () => {
     if (!formData.name || !formData.email || !formData.phone || !formData.address || !formData.city || !formData.pincode) {
       alert("Please fill in all required fields (name, email, phone, address, city, pincode).");
       return;
@@ -61,44 +61,80 @@ const PrebookSection = () => {
 
     setLoading(true);
 
-    const options = {
-      key: RAZORPAY_KEY,
-      amount: totalAmount * 100,
-      currency: "INR",
-      name: "AceEdX",
-      description: `Principal's Handbook & Planner 2026-27 (x${formData.quantity})`,
-      image: "",
-      handler: function () {
-        setSuccess(true);
-        setLoading(false);
-      },
-      prefill: {
-        name: formData.name,
-        email: formData.email,
-        contact: formData.phone,
-      },
-      notes: {
-        school: formData.school,
-        address: formData.address,
-        city: formData.city,
-        pincode: formData.pincode,
-        quantity: formData.quantity.toString(),
-      },
-      theme: {
-        color: "#1a2744",
-      },
-      modal: {
-        ondismiss: function () {
+    try {
+      // Create order on server
+      const { data: orderData, error: orderError } = await supabase.functions.invoke('create-razorpay-order', {
+        body: {
+          amount: totalAmount * 100,
+          currency: 'INR',
+          notes: {
+            name: formData.name,
+            email: formData.email,
+            phone: formData.phone,
+            school: formData.school,
+            address: formData.address,
+            city: formData.city,
+            pincode: formData.pincode,
+            quantity: formData.quantity.toString(),
+          },
+        },
+      });
+
+      if (orderError || !orderData?.orderId) {
+        throw new Error(orderData?.error || 'Failed to create order');
+      }
+
+      const options = {
+        key: RAZORPAY_KEY,
+        amount: orderData.amount,
+        currency: orderData.currency,
+        order_id: orderData.orderId,
+        name: "AceEdX",
+        description: `Principal's Handbook & Planner 2026-27 (x${formData.quantity})`,
+        handler: async function (response: any) {
+          // Send confirmation email
+          await supabase.functions.invoke('send-order-email', {
+            body: {
+              name: formData.name,
+              email: formData.email,
+              quantity: formData.quantity,
+              amount: totalAmount * 100,
+              address: formData.address,
+              city: formData.city,
+              pincode: formData.pincode,
+              school: formData.school,
+              paymentId: response.razorpay_payment_id,
+            },
+          });
+          setSuccess(true);
           setLoading(false);
         },
-      },
-    };
+        prefill: {
+          name: formData.name,
+          email: formData.email,
+          contact: formData.phone,
+        },
+        notes: {
+          school: formData.school,
+          address: formData.address,
+          city: formData.city,
+          pincode: formData.pincode,
+          quantity: formData.quantity.toString(),
+        },
+        theme: {
+          color: "#1a2744",
+        },
+        modal: {
+          ondismiss: function () {
+            setLoading(false);
+          },
+        },
+      };
 
-    try {
       const rzp = new (window as any).Razorpay(options);
       rzp.open();
-    } catch {
-      alert("Payment gateway not loaded. Please refresh and try again.");
+    } catch (err: any) {
+      alert(err.message || "Payment gateway error. Please refresh and try again.");
       setLoading(false);
     }
   };
