@@ -7,10 +7,10 @@ const RAZORPAY_KEY = "rzp_live_AHbE0TTY4oTn7d";
 
 const PrebookSection = () => {
   const [priceConfig, setPriceConfig] = useState({
-    originalPrice: 999,
-    salePrice: 699,
+    originalPrice: 1999,
+    salePrice: 1499,
     prebookingOpen: true,
-    deliveryNote: "Expected dispatch: June 2026",
+    deliveryNote: "Expected dispatch before June 2026 — depends on the day you order",
   });
   const [configLoaded, setConfigLoaded] = useState(false);
 
