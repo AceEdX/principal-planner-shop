@@ -64,7 +64,7 @@ const PrebookSection = () => {
     const options = {
       key: RAZORPAY_KEY,
       amount: totalAmount * 100,
-      currency: priceConfig.currency,
+      currency: "INR",
       name: "AceEdX",
       description: `Principal's Handbook & Planner 2026-27 (x${formData.quantity})`,
       image: "",
@@ -306,7 +306,7 @@ const PrebookSection = () => {
               {loading
                 ? "Processing..."
                 : priceConfig.prebookingOpen
-                ? `${priceConfig.prebookLabel} — ₹${totalAmount}`
+                ? `Pre-Book Now — Limited Copies! — ₹${totalAmount}`
                 : "Pre-Booking Closed"}
             </button>
 
