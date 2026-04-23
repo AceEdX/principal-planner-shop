@@ -10,10 +10,10 @@ const Admin = () => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [config, setConfig] = useState({
-    originalPrice: 999,
-    salePrice: 699,
+    originalPrice: 1999,
+    salePrice: 1499,
     prebookingOpen: true,
-    deliveryNote: "Expected dispatch: June 2026",
+    deliveryNote: "Expected dispatch before June 2026 — depends on the day you order",
   });
   const [saving, setSaving] = useState(false);
   const [loading, setLoading] = useState(true);

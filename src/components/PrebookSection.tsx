@@ -3,14 +3,14 @@ import { motion } from "framer-motion";
 import { ShieldCheck, Truck, BookOpen, Gift, IndianRupee } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
-const RAZORPAY_KEY = "rzp_test_XXXXXXXXXX"; // Replace with your Razorpay key
+const RAZORPAY_KEY = "rzp_live_AHbE0TTY4oTn7d";
 
 const PrebookSection = () => {
   const [priceConfig, setPriceConfig] = useState({
-    originalPrice: 999,
-    salePrice: 699,
+    originalPrice: 1999,
+    salePrice: 1499,
     prebookingOpen: true,
-    deliveryNote: "Expected dispatch: June 2026",
+    deliveryNote: "Expected dispatch before June 2026 — depends on the day you order",
   });
   const [configLoaded, setConfigLoaded] = useState(false);
 
@@ -137,6 +137,11 @@ const PrebookSection = () => {
   return (
     <section id="prebook" className="py-20 lg:py-28 bg-cream">
       <div className="container mx-auto px-4">
+        <div className="text-center mb-4">
+          <a href="https://www.aceedx.com" target="_blank" rel="noopener noreferrer" className="font-body text-sm text-gold font-semibold hover:underline">
+            www.aceedx.com
+          </a>
+        </div>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -174,14 +179,14 @@ const PrebookSection = () => {
                   ₹{priceConfig.salePrice}
                 </span>
               </div>
-              <p className="font-body text-gold-light/80 text-sm mt-2">
+              <p className="font-body text-white text-sm mt-2">
                 You save ₹{priceConfig.originalPrice - priceConfig.salePrice} per copy!
               </p>
             </div>
 
             <div className="p-8 space-y-5">
               {[
-                { icon: BookOpen, text: "124-page paperback handbook & planner" },
+                { icon: BookOpen, text: "130-page paperback handbook & planner" },
                 { icon: ShieldCheck, text: "CBSE & NEP 2020 aligned content" },
                 { icon: Truck, text: "Free shipping across India" },
                 { icon: IndianRupee, text: "Secure Razorpay payment" },
@@ -314,6 +319,11 @@ const PrebookSection = () => {
               🔒 100% secure payment via Razorpay. Your data is safe with us.
             </p>
           </motion.div>
+        </div>
+        <div className="text-center mt-8">
+          <a href="https://www.aceedx.com" target="_blank" rel="noopener noreferrer" className="font-body text-sm text-gold font-semibold hover:underline">
+            www.aceedx.com
+          </a>
         </div>
       </div>
     </section>
