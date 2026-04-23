@@ -320,6 +320,11 @@ const PrebookSection = () => {
             </p>
           </motion.div>
         </div>
+        <div className="text-center mt-8">
+          <a href="https://www.aceedx.com" target="_blank" rel="noopener noreferrer" className="font-body text-sm text-gold font-semibold hover:underline">
+            www.aceedx.com
+          </a>
+        </div>
       </div>
     </section>
   );
