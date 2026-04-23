@@ -137,6 +137,11 @@ const PrebookSection = () => {
   return (
     <section id="prebook" className="py-20 lg:py-28 bg-cream">
       <div className="container mx-auto px-4">
+        <div className="text-center mb-4">
+          <a href="https://www.aceedx.com" target="_blank" rel="noopener noreferrer" className="font-body text-sm text-gold font-semibold hover:underline">
+            www.aceedx.com
+          </a>
+        </div>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
