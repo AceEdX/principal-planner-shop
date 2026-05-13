@@ -54,6 +54,10 @@ const PrebookSection = () => {
   };
 
   const handlePayment = async () => {
+    if (!priceConfig.prebookingOpen) {
+      alert("Orders are no longer accepted for this Handbook and Planner.");
+      return;
+    }
     if (!formData.name || !formData.email || !formData.phone || !formData.address || !formData.city || !formData.pincode) {
       alert("Please fill in all required fields (name, email, phone, address, city, pincode).");
       return;
@@ -196,7 +200,29 @@ const PrebookSection = () => {
           </p>
         </motion.div>
 
-        <div className="max-w-4xl mx-auto grid lg:grid-cols-2 gap-10">
+        {!priceConfig.prebookingOpen && configLoaded && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="max-w-2xl mx-auto mb-10 bg-card border-2 border-gold rounded-2xl p-8 text-center shadow-xl"
+          >
+            <h3 className="font-display text-2xl md:text-3xl font-bold text-navy mb-3">
+              Orders Closed
+            </h3>
+            <p className="font-body text-foreground text-base md:text-lg">
+              Orders are no longer accepted for this Handbook and Planner.
+            </p>
+            <p className="font-body text-muted-foreground text-sm mt-3">
+              Thank you for the overwhelming response. Please visit{" "}
+              <a href="https://www.aceedx.com" target="_blank" rel="noopener noreferrer" className="text-gold font-semibold hover:underline">
+                www.aceedx.com
+              </a>{" "}
+              for updates.
+            </p>
+          </motion.div>
+        )}
+
+        <div className={`max-w-4xl mx-auto grid lg:grid-cols-2 gap-10 ${!priceConfig.prebookingOpen && configLoaded ? 'opacity-50 pointer-events-none' : ''}`}>
           {/* Pricing Card */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}

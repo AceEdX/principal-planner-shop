@@ -13,6 +13,24 @@ Deno.serve(async (req) => {
   try {
     const { amount, currency = 'INR', notes } = await req.json()
 
+    // Check if pre-booking is still open
+    const supabaseCheck = createClient(
+      Deno.env.get('SUPABASE_URL')!,
+      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
+    )
+    const { data: cfg } = await supabaseCheck
+      .from('site_config')
+      .select('value')
+      .eq('key', 'price_config')
+      .single()
+
+    if (cfg?.value && (cfg.value as any).prebookingOpen === false) {
+      return new Response(
+        JSON.stringify({ error: 'Orders are no longer accepted for the Handbook & Planner.' }),
+        { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      )
+    }
+
     if (!amount || typeof amount !== 'number' || amount < 100) {
       return new Response(
         JSON.stringify({ error: 'Invalid amount' }),

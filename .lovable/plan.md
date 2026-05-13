@@ -1,37 +1,18 @@
+## Close Pre-booking Orders for Handbook & Planner
 
+The user wants to stop accepting new orders and payments. This requires changes in three places:
 
-# WhatsApp Payment Notification to 9373387800
+### 1. Database — Update site config flag
+Set `prebookingOpen: false` in the `price_config` row of `site_config` table.
 
-## What it does
-Every time a customer completes a payment, you automatically receive a WhatsApp message on **9373387800** with all order details: name, email, phone, address, pincode, city, amount, quantity, status, payment ID, order ID, and date/time.
+### 2. Backend — Protect order creation endpoint
+Update the `create-razorpay-order` Edge Function to check `prebookingOpen` in `site_config` before creating a Razorpay order. If closed, return a clear error: "Orders are no longer accepted for the Handbook & Planner."
 
-## What you need first
-The WhatsApp Business API requires two credentials from Meta:
+### 3. Frontend — Show clear "orders closed" message
+Update `PrebookSection.tsx` to display a prominent message when prebooking is closed: "Orders are no longer accepted for this Handbook and Planner." Replace the form with this notice and disable/hide the payment button.
 
-1. **WhatsApp Access Token** — from [Meta Developer Console](https://developers.facebook.com) → Your App → WhatsApp → API Setup
-2. **WhatsApp Phone Number ID** — shown on the same API Setup page (this is the sender number ID, not your personal number)
-
-**Quick setup steps** (if you don't have these yet):
-- Go to [developers.facebook.com](https://developers.facebook.com) and create an app with the "WhatsApp" product
-- In WhatsApp → API Setup, you'll see your Phone Number ID and can generate an access token
-- Add **919373387800** as a recipient in the test numbers (or use a permanent token with an approved template for production)
-
-## Implementation plan
-
-### Step 1 — Store two secrets
-- `WHATSAPP_ACCESS_TOKEN` — your Meta API token
-- `WHATSAPP_PHONE_NUMBER_ID` — the sender phone number ID
-
-### Step 2 — Update `send-order-email` edge function
-After updating the order status to "paid", add a WhatsApp message send via Meta Graph API:
-- **Endpoint**: `POST https://graph.facebook.com/v21.0/{PHONE_NUMBER_ID}/messages`
-- **Recipient**: `919373387800`
-- **Message**: formatted text with all order details (name, email, phone, address+pincode, city, amount, quantity, status, payment ID, order ID, timestamp)
-- Errors are logged but don't block the payment confirmation flow
-
-### Step 3 — No frontend changes needed
-The notification triggers server-side when the existing `send-order-email` function runs after payment.
-
-## Do you have a Meta Developer account with WhatsApp Business API access?
-If yes, I'll ask you to add the two secrets and implement immediately. If not, I can guide you through the setup first.
-
+### Technical details
+- Read `price_config` from `site_config` in the Edge Function
+- Return 400 with descriptive error when `prebookingOpen` is false
+- Frontend already reads this config, so mostly need to improve the closed-state UI
+- Keep the pricing card visible for reference, but disable the form
