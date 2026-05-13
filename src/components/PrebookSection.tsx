@@ -54,6 +54,10 @@ const PrebookSection = () => {
   };
 
   const handlePayment = async () => {
+    if (!priceConfig.prebookingOpen) {
+      alert("Orders are no longer accepted for this Handbook and Planner.");
+      return;
+    }
     if (!formData.name || !formData.email || !formData.phone || !formData.address || !formData.city || !formData.pincode) {
       alert("Please fill in all required fields (name, email, phone, address, city, pincode).");
       return;
