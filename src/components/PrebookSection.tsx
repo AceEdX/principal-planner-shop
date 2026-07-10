@@ -8,11 +8,29 @@ const RAZORPAY_KEY = "rzp_live_S9yItLCPCKdBpt";
 const PrebookSection = () => {
   const [priceConfig, setPriceConfig] = useState({
     originalPrice: 1999,
-    salePrice: 1499,
+    salePrice: 1299,
     prebookingOpen: true,
-    deliveryNote: "Expected dispatch before June 2026 — depends on the day you order",
+    deliveryNote: "Delivery within 15 days from placing the order",
+    reopenNotice: "",
+    ordersCloseAt: "",
   });
   const [configLoaded, setConfigLoaded] = useState(false);
+  const [countdown, setCountdown] = useState("");
+
+  useEffect(() => {
+    if (!priceConfig.ordersCloseAt) return;
+    const tick = () => {
+      const diff = new Date(priceConfig.ordersCloseAt).getTime() - Date.now();
+      if (diff <= 0) { setCountdown("Ordering window has closed"); return; }
+      const d = Math.floor(diff / 86400000);
+      const h = Math.floor((diff % 86400000) / 3600000);
+      const m = Math.floor((diff % 3600000) / 60000);
+      setCountdown(`${d}d ${h}h ${m}m left`);
+    };
+    tick();
+    const id = setInterval(tick, 60000);
+    return () => clearInterval(id);
+  }, [priceConfig.ordersCloseAt]);
 
   useEffect(() => {
     const fetchPricing = async () => {
