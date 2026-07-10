@@ -54,13 +54,14 @@ const Admin = () => {
 
   const handleSave = async () => {
     setSaving(true);
-    const { error } = await supabase
-      .from("site_config" as any)
-      .update({ value: config, updated_at: new Date().toISOString() } as any)
-      .eq("key", "price_config");
+    const { data, error } = await supabase.functions.invoke("admin-update-config", {
+      body: { config },
+      headers: { "x-admin-password": password || ADMIN_PASSWORD },
+    });
     setSaving(false);
-    if (error) {
-      toast({ title: "Error saving", description: error.message, variant: "destructive" });
+    if (error || (data && (data as any).error)) {
+      const msg = (data as any)?.error || error?.message || "Unknown error";
+      toast({ title: "Error saving", description: msg, variant: "destructive" });
     } else {
       toast({ title: "Saved!", description: "Pricing updated successfully. Changes are live now." });
     }
