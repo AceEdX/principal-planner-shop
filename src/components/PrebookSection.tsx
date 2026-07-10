@@ -8,11 +8,29 @@ const RAZORPAY_KEY = "rzp_live_S9yItLCPCKdBpt";
 const PrebookSection = () => {
   const [priceConfig, setPriceConfig] = useState({
     originalPrice: 1999,
-    salePrice: 1499,
+    salePrice: 1299,
     prebookingOpen: true,
-    deliveryNote: "Expected dispatch before June 2026 — depends on the day you order",
+    deliveryNote: "Delivery within 15 days from placing the order",
+    reopenNotice: "",
+    ordersCloseAt: "",
   });
   const [configLoaded, setConfigLoaded] = useState(false);
+  const [countdown, setCountdown] = useState("");
+
+  useEffect(() => {
+    if (!priceConfig.ordersCloseAt) return;
+    const tick = () => {
+      const diff = new Date(priceConfig.ordersCloseAt).getTime() - Date.now();
+      if (diff <= 0) { setCountdown("Ordering window has closed"); return; }
+      const d = Math.floor(diff / 86400000);
+      const h = Math.floor((diff % 86400000) / 3600000);
+      const m = Math.floor((diff % 3600000) / 60000);
+      setCountdown(`${d}d ${h}h ${m}m left`);
+    };
+    tick();
+    const id = setInterval(tick, 60000);
+    return () => clearInterval(id);
+  }, [priceConfig.ordersCloseAt]);
 
   useEffect(() => {
     const fetchPricing = async () => {
@@ -199,6 +217,27 @@ const PrebookSection = () => {
             Limited copies available. Pre-book now to secure your planner at the special launch price.
           </p>
         </motion.div>
+
+        {priceConfig.prebookingOpen && configLoaded && priceConfig.reopenNotice && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="max-w-2xl mx-auto mb-10 bg-gold-pale border-2 border-gold rounded-2xl p-6 text-center shadow-lg"
+          >
+            <span className="inline-block px-3 py-1 rounded-full bg-navy text-gold text-xs font-bold tracking-widest uppercase mb-3">
+              Reopened by Popular Demand
+            </span>
+            <p className="font-body text-navy text-base md:text-lg font-medium">
+              {priceConfig.reopenNotice}
+            </p>
+            {countdown && (
+              <p className="font-display text-navy text-xl font-bold mt-3">
+                ⏳ {countdown}
+              </p>
+            )}
+          </motion.div>
+        )}
+
 
         {!priceConfig.prebookingOpen && configLoaded && (
           <motion.div
