@@ -218,6 +218,27 @@ const PrebookSection = () => {
           </p>
         </motion.div>
 
+        {priceConfig.prebookingOpen && configLoaded && priceConfig.reopenNotice && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="max-w-2xl mx-auto mb-10 bg-gold-pale border-2 border-gold rounded-2xl p-6 text-center shadow-lg"
+          >
+            <span className="inline-block px-3 py-1 rounded-full bg-navy text-gold text-xs font-bold tracking-widest uppercase mb-3">
+              Reopened by Popular Demand
+            </span>
+            <p className="font-body text-navy text-base md:text-lg font-medium">
+              {priceConfig.reopenNotice}
+            </p>
+            {countdown && (
+              <p className="font-display text-navy text-xl font-bold mt-3">
+                ⏳ {countdown}
+              </p>
+            )}
+          </motion.div>
+        )}
+
+
         {!priceConfig.prebookingOpen && configLoaded && (
           <motion.div
             initial={{ opacity: 0, y: 10 }}
