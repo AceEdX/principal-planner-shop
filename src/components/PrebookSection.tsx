@@ -246,13 +246,13 @@ const PrebookSection = () => {
             className="max-w-2xl mx-auto mb-10 bg-card border-2 border-gold rounded-2xl p-8 text-center shadow-xl"
           >
             <h3 className="font-display text-2xl md:text-3xl font-bold text-navy mb-3">
-              Orders Closed
+              All Orders Closed for This Year
             </h3>
             <p className="font-body text-foreground text-base md:text-lg">
-              Orders are no longer accepted for this Handbook and Planner.
+              All orders are closed for this year. We are no longer accepting any payments for the Principal's Handbook & Planner.
             </p>
             <p className="font-body text-muted-foreground text-sm mt-3">
-              Thank you for the overwhelming response. Please visit{" "}
+              Thank you for the overwhelming response from Principals across India. Please visit{" "}
               <a href="https://www.aceedx.com" target="_blank" rel="noopener noreferrer" className="text-gold font-semibold hover:underline">
                 www.aceedx.com
               </a>{" "}
