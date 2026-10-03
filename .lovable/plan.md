@@ -1,18 +1,19 @@
-## Close Pre-booking Orders for Handbook & Planner
+## Reopen Principal's Handbook & Planner 2027–28 Orders
 
-The user wants to stop accepting new orders and payments. This requires changes in three places:
+### Page updates
+- Replace the main book image with the supplied 2027–28 promotional image.
+- Update remaining 2026–27 text to 2027–28 and set the offer to ₹1,499 from ₹1,999.
+- Keep the existing testimonials unchanged, as selected.
+- Add restrained orange accents through the existing design theme.
+- Update the interior teaser images so visible academic-year references read 2027–28 while retaining the intentionally reduced, obscured previews.
 
-### 1. Database — Update site config flag
-Set `prebookingOpen: false` in the `price_config` row of `site_config` table.
+### New booking records
+- Preserve the existing `prebook_orders` records unchanged for historical reference.
+- Create a separate locked-down table for 2027–28 bookings.
+- Route new pending and paid bookings into the new table only.
 
-### 2. Backend — Protect order creation endpoint
-Update the `create-razorpay-order` Edge Function to check `prebookingOpen` in `site_config` before creating a Razorpay order. If closed, return a clear error: "Orders are no longer accepted for the Handbook & Planner."
-
-### 3. Frontend — Show clear "orders closed" message
-Update `PrebookSection.tsx` to display a prominent message when prebooking is closed: "Orders are no longer accepted for this Handbook and Planner." Replace the form with this notice and disable/hide the payment button.
-
-### Technical details
-- Read `price_config` from `site_config` in the Edge Function
-- Return 400 with descriptive error when `prebookingOpen` is false
-- Frontend already reads this config, so mostly need to improve the closed-state UI
-- Keep the pricing card visible for reference, but disable the form
+### Payments and checks
+- Reopen ordering in the live pricing settings with ₹1,999 original and ₹1,499 pre-booking pricing.
+- Keep the backend price authoritative so visitors cannot alter the amount sent to Razorpay.
+- Deploy the updated payment functions and verify order creation reaches Razorpay without capturing a payment.
+- Confirm the landing page loads the new image, pricing, open booking form, previews, and payment script without errors.
