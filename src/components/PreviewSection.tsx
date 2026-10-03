@@ -52,7 +52,7 @@ const PreviewSection = () => {
             What's Inside the Planner
           </h2>
           <p className="font-body text-primary-foreground/70 mt-4 max-w-xl mx-auto">
-            124 beautifully designed pages packed with everything a modern principal needs. Here's a glimpse.
+            130 beautifully designed pages packed with everything a modern principal needs. Here's a glimpse.
           </p>
         </motion.div>
 

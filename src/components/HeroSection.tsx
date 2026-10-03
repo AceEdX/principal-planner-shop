@@ -40,7 +40,7 @@ const HeroSection = () => {
               <br />
               <span className="text-gold">Handbook & Planner</span>
               <br />
-              <span className="text-3xl md:text-4xl lg:text-5xl">2026–27</span>
+              <span className="text-3xl md:text-4xl lg:text-5xl">2027–28</span>
             </h1>
 
             <p className="font-body text-lg md:text-xl opacity-90 mb-4 max-w-lg leading-relaxed">
@@ -69,7 +69,7 @@ const HeroSection = () => {
             <div className="mt-10 flex items-center gap-6 text-sm opacity-80">
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-gold" />
-                <span>124 Pages</span>
+                <span>130 Pages</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-gold" />
