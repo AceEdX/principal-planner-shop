@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { ArrowDown, Star } from "lucide-react";
-import bookHero from "@/assets/book-hero.jpg";
+import book2027 from "@/assets/principal-handbook-2027-28.jpeg.asset.json";
 
 const HeroSection = () => {
   const scrollToPrebook = () => {
@@ -54,7 +54,7 @@ const HeroSection = () => {
             <div className="flex flex-col sm:flex-row gap-4">
               <button
                 onClick={scrollToPrebook}
-                className="gradient-gold text-navy font-body font-bold px-8 py-4 rounded-lg text-lg shadow-gold hover:scale-105 transition-transform"
+                className="gradient-orange text-primary-foreground font-body font-bold px-8 py-4 rounded-lg text-lg shadow-orange hover:scale-105 transition-transform"
               >
                 Pre-Book Your Copy Now
               </button>
@@ -92,8 +92,8 @@ const HeroSection = () => {
             <div className="relative">
               <div className="absolute -inset-4 bg-gold/20 rounded-3xl blur-2xl" />
               <img
-                src={bookHero}
-                alt="Principal's Handbook & Planner 2026-27"
+                src={book2027.url}
+                alt="Principal's Handbook & Planner 2027-28"
                 className="relative rounded-2xl shadow-2xl max-w-sm lg:max-w-md w-full object-cover"
               />
               <motion.div

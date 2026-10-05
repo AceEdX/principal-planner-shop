@@ -21,7 +21,14 @@ Deno.serve(async (req) => {
       )
     }
 
-    const { config } = await req.json()
+    const { action, config } = await req.json()
+
+    if (action === 'verify') {
+      return new Response(
+        JSON.stringify({ success: true }),
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      )
+    }
 
     if (!config || typeof config !== 'object') {
       return new Response(

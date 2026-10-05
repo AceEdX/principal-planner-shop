@@ -2,16 +2,16 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, Lock } from "lucide-react";
 
-import previewYearly from "@/assets/preview-yearly.png";
-import previewMonthly from "@/assets/preview-monthly.png";
-import previewActivities from "@/assets/preview-activities.png";
-import previewActionplan1 from "@/assets/preview-actionplan1.png";
-import previewActionplan2 from "@/assets/preview-actionplan2.png";
-import previewHolidays from "@/assets/preview-holidays.png";
+import previewYearly from "@/assets/preview-2027-yearly.png";
+import previewMonthly from "@/assets/preview-2027-monthly.png";
+import previewActivities from "@/assets/preview-2027-activities.png";
+import previewActionplan1 from "@/assets/preview-2027-actionplan1.png";
+import previewActionplan2 from "@/assets/preview-2027-actionplan2.png";
+import previewHolidays from "@/assets/preview-2027-holidays.png";
 import previewCompliance from "@/assets/preview-compliance.png";
 import previewSelfcare from "@/assets/preview-selfcare.png";
-import previewPlatform from "@/assets/preview-platform.png";
-import previewApril from "@/assets/preview-april.png";
+import previewPlatform from "@/assets/preview-2027-platform.png";
+import previewApril from "@/assets/preview-2027-april.png";
 
 const previews = [
   { img: previewYearly, title: "Year at a Glance", desc: "Full academic year overview with monthly themes, key milestones, and CBSE compliance calendar." },

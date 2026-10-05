@@ -8,7 +8,7 @@ const RAZORPAY_KEY = "rzp_live_S9yItLCPCKdBpt";
 const PrebookSection = () => {
   const [priceConfig, setPriceConfig] = useState({
     originalPrice: 1999,
-    salePrice: 1299,
+    salePrice: 1499,
     prebookingOpen: true,
     deliveryNote: "Delivery within 15 days from placing the order",
     reopenNotice: "",
@@ -87,8 +87,8 @@ const PrebookSection = () => {
       // Create order on server
       const { data: orderData, error: orderError } = await supabase.functions.invoke('create-razorpay-order', {
         body: {
-          amount: totalAmount * 100,
           currency: 'INR',
+          quantity: formData.quantity,
           notes: {
             name: formData.name,
             email: formData.email,
@@ -112,7 +112,7 @@ const PrebookSection = () => {
         currency: orderData.currency,
         order_id: orderData.orderId,
         name: "AceEdX",
-        description: `Principal's Handbook & Planner 2026-27 (x${formData.quantity})`,
+        description: `Principal's Handbook & Planner 2027-28 (x${formData.quantity})`,
         handler: async function (response: any) {
           // Update order status to paid
           await supabase.functions.invoke('send-order-email', {
@@ -127,6 +127,7 @@ const PrebookSection = () => {
               school: formData.school,
               paymentId: response.razorpay_payment_id,
               orderId: orderData.orderId,
+              signature: response.razorpay_signature,
             },
           });
           setSuccess(true);
@@ -408,7 +409,7 @@ const PrebookSection = () => {
             <button
               onClick={handlePayment}
               disabled={loading || !priceConfig.prebookingOpen}
-              className="w-full gradient-gold text-navy font-body font-bold text-lg py-4 rounded-lg shadow-gold hover:scale-[1.02] transition-transform disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full gradient-orange text-primary-foreground font-body font-bold text-lg py-4 rounded-lg shadow-orange hover:scale-[1.02] transition-transform disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading
                 ? "Processing..."
