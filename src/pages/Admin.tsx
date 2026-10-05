@@ -3,8 +3,6 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Lock, Save, LogOut, Eye, EyeOff } from "lucide-react";
 
-const ADMIN_PASSWORD = "aceedx2026"; // Change this to your desired admin password
-
 const Admin = () => {
   const [authenticated, setAuthenticated] = useState(false);
   const [password, setPassword] = useState("");
@@ -13,27 +11,28 @@ const Admin = () => {
     originalPrice: 1999,
     salePrice: 1499,
     prebookingOpen: true,
-    deliveryNote: "Expected dispatch before June 2026 — depends on the day you order",
+    deliveryNote: "Delivery within 15 days from placing the order",
+    reopenNotice: "Reopened due to overwhelming demand from Principals across India. Ordering is open for the next 5 days only.",
+    ordersCloseAt: "",
   });
   const [saving, setSaving] = useState(false);
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (password === ADMIN_PASSWORD) {
+    setLoading(true);
+    const { data, error } = await supabase.functions.invoke("admin-update-config", {
+      body: { action: "verify" },
+      headers: { "x-admin-password": password },
+    });
+    setLoading(false);
+    if (!error && data?.success) {
       setAuthenticated(true);
-      sessionStorage.setItem("admin_auth", "true");
     } else {
       toast({ title: "Wrong password", description: "Please try again.", variant: "destructive" });
     }
   };
-
-  useEffect(() => {
-    if (sessionStorage.getItem("admin_auth") === "true") {
-      setAuthenticated(true);
-    }
-  }, []);
 
   useEffect(() => {
     if (!authenticated) return;
@@ -56,7 +55,7 @@ const Admin = () => {
     setSaving(true);
     const { data, error } = await supabase.functions.invoke("admin-update-config", {
       body: { config },
-      headers: { "x-admin-password": password || ADMIN_PASSWORD },
+      headers: { "x-admin-password": password },
     });
     setSaving(false);
     if (error || (data && (data as any).error)) {
@@ -119,8 +118,8 @@ const Admin = () => {
         <h1 className="font-display text-xl font-bold text-gold">AceEdX Admin Panel</h1>
         <button
           onClick={() => {
-            sessionStorage.removeItem("admin_auth");
             setAuthenticated(false);
+            setPassword("");
           }}
           className="flex items-center gap-2 text-gold-light font-body text-sm hover:text-gold transition-colors"
         >
