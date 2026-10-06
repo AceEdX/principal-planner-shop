@@ -32,7 +32,7 @@ Deno.serve(async (req) => {
     }
     const { currency, quantity, notes } = parsed.data
 
-    // Check if pre-booking is still open
+    // Check the admin-controlled booking switch. There is no automatic time limit.
     const supabaseCheck = createClient(
       Deno.env.get('SUPABASE_URL')!,
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
@@ -43,9 +43,8 @@ Deno.serve(async (req) => {
       .eq('key', 'price_config')
       .single()
 
-    const config = cfg?.value as { prebookingOpen?: boolean; salePrice?: number; ordersCloseAt?: string } | undefined
-    const isPastClose = Boolean(config?.ordersCloseAt && Date.now() > new Date(config.ordersCloseAt).getTime())
-    if (!config?.prebookingOpen || isPastClose) {
+    const config = cfg?.value as { prebookingOpen?: boolean; salePrice?: number } | undefined
+    if (!config?.prebookingOpen) {
       return new Response(
         JSON.stringify({ error: 'Orders are no longer accepted for the Handbook & Planner.' }),
         { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }

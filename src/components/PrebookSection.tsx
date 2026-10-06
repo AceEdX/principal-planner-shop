@@ -12,25 +12,8 @@ const PrebookSection = () => {
     prebookingOpen: true,
     deliveryNote: "Delivery within 15 days from placing the order",
     reopenNotice: "",
-    ordersCloseAt: "",
   });
   const [configLoaded, setConfigLoaded] = useState(false);
-  const [countdown, setCountdown] = useState("");
-
-  useEffect(() => {
-    if (!priceConfig.ordersCloseAt) return;
-    const tick = () => {
-      const diff = new Date(priceConfig.ordersCloseAt).getTime() - Date.now();
-      if (diff <= 0) { setCountdown("Ordering window has closed"); return; }
-      const d = Math.floor(diff / 86400000);
-      const h = Math.floor((diff % 86400000) / 3600000);
-      const m = Math.floor((diff % 3600000) / 60000);
-      setCountdown(`${d}d ${h}h ${m}m left`);
-    };
-    tick();
-    const id = setInterval(tick, 60000);
-    return () => clearInterval(id);
-  }, [priceConfig.ordersCloseAt]);
 
   useEffect(() => {
     const fetchPricing = async () => {
@@ -231,11 +214,6 @@ const PrebookSection = () => {
             <p className="font-body text-navy text-base md:text-lg font-medium">
               {priceConfig.reopenNotice}
             </p>
-            {countdown && (
-              <p className="font-display text-navy text-xl font-bold mt-3">
-                ⏳ {countdown}
-              </p>
-            )}
           </motion.div>
         )}
 

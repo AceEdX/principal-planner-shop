@@ -12,8 +12,7 @@ const Admin = () => {
     salePrice: 1499,
     prebookingOpen: true,
     deliveryNote: "Delivery within 15 days from placing the order",
-    reopenNotice: "Reopened due to overwhelming demand from Principals across India. Ordering is open for the next 5 days only.",
-    ordersCloseAt: "",
+    reopenNotice: "Reopened due to overwhelming demand from Principals across India.",
   });
   const [saving, setSaving] = useState(false);
   const [loading, setLoading] = useState(true);
