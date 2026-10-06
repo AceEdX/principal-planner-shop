@@ -44,7 +44,6 @@ Deno.serve(async (req) => {
     if (typeof config.prebookingOpen === 'boolean') allowed.prebookingOpen = config.prebookingOpen
     if (typeof config.deliveryNote === 'string') allowed.deliveryNote = config.deliveryNote.slice(0, 500)
     if (typeof config.reopenNotice === 'string') allowed.reopenNotice = config.reopenNotice.slice(0, 500)
-    if (typeof config.ordersCloseAt === 'string') allowed.ordersCloseAt = config.ordersCloseAt.slice(0, 100)
 
     const supabase = createClient(
       Deno.env.get('SUPABASE_URL')!,
