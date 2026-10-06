@@ -1,6 +1,6 @@
 # Roadmap
 
-- [ ] Verify admin password rejection remains on the sign-in page with a clear error and retry enabled.
+- [x] Verify admin password rejection remains on the sign-in page with a clear error and retry enabled.
 
 - [x] Preserve historical orders and create a private 2027–28 order store.
 - [x] Replace the main book image and interior previews with 2027–28 assets.
