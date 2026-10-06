@@ -202,17 +202,17 @@ const PrebookSection = () => {
           </p>
         </motion.div>
 
-        {priceConfig.prebookingOpen && configLoaded && priceConfig.reopenNotice && (
+        {priceConfig.prebookingOpen && configLoaded && (
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             className="max-w-2xl mx-auto mb-10 bg-gold-pale border-2 border-gold rounded-2xl p-6 text-center shadow-lg"
           >
-            <span className="inline-block px-3 py-1 rounded-full bg-navy text-gold text-xs font-bold tracking-widest uppercase mb-3">
-              Reopened by Popular Demand
-            </span>
-            <p className="font-body text-navy text-base md:text-lg font-medium">
-              {priceConfig.reopenNotice}
+            <h3 className="font-display text-2xl md:text-3xl font-bold text-navy mb-3">
+              The Much-Awaited 2027–28 Edition
+            </h3>
+            <p className="font-body text-navy text-base md:text-lg leading-relaxed">
+              After receiving overwhelming appreciation from Principals for last year’s Handbook &amp; Planner, we’re excited to bring them the much-awaited 2027–28 edition—created to make every school leader’s year more organised, focused and impactful.
             </p>
           </motion.div>
         )}

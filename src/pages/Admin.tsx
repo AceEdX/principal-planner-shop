@@ -12,7 +12,7 @@ const Admin = () => {
     salePrice: 1499,
     prebookingOpen: true,
     deliveryNote: "Delivery within 15 days from placing the order",
-    reopenNotice: "Reopened due to overwhelming demand from Principals across India.",
+    reopenNotice: "After receiving overwhelming appreciation from Principals for last year’s Handbook & Planner, we’re excited to bring them the much-awaited 2027–28 edition—created to make every school leader’s year more organised, focused and impactful.",
   });
   const [saving, setSaving] = useState(false);
   const [loading, setLoading] = useState(true);
