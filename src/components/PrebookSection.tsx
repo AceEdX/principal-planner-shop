@@ -10,7 +10,7 @@ const PrebookSection = () => {
     originalPrice: 1999,
     salePrice: 1499,
     prebookingOpen: true,
-    deliveryNote: "Delivery within 15 days from placing the order",
+    deliveryNote: "",
     reopenNotice: "",
   });
   const [configLoaded, setConfigLoaded] = useState(false);
@@ -168,9 +168,6 @@ const PrebookSection = () => {
             <p className="font-body text-sm text-muted-foreground mt-2">
               Shipping to: {formData.address}, {formData.city} — {formData.pincode}
             </p>
-            <p className="font-body text-sm text-gold mt-4 font-semibold">
-              {priceConfig.deliveryNote}
-            </p>
           </motion.div>
         </div>
       </section>
@@ -291,9 +288,6 @@ const PrebookSection = () => {
                 </div>
               </div>
 
-              <p className="font-body text-xs text-muted-foreground text-center">
-                {priceConfig.deliveryNote}
-              </p>
             </div>
           </motion.div>
 
