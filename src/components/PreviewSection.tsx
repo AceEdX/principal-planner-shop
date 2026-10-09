@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, Lock } from "lucide-react";
 
 import previewYearly from "@/assets/preview-2027-yearly.png";
-import previewMonthly from "@/assets/preview-2027-monthly.png";
 import previewActivities from "@/assets/preview-2027-activities.png";
 import previewActionplan1 from "@/assets/preview-2027-actionplan1.png";
 import previewActionplan2 from "@/assets/preview-2027-actionplan2.png";
@@ -12,10 +11,15 @@ import previewCompliance from "@/assets/preview-compliance.png";
 import previewSelfcare from "@/assets/preview-selfcare.png";
 import previewPlatform from "@/assets/preview-2027-platform.png";
 import previewApril from "@/assets/preview-2027-april.png";
+import previewExams from "@/assets/planner-sample-121.png.asset.json";
+import previewJuneHolidays from "@/assets/planner-sample-122.png.asset.json";
+import previewJuneWeekly from "@/assets/planner-sample-123.png.asset.json";
+import previewAugustAction from "@/assets/planner-sample-124.png.asset.json";
+import previewOctoberHolidays from "@/assets/planner-sample-125.png.asset.json";
+import previewReckoner from "@/assets/planner-sample-126.png.asset.json";
 
 const previews = [
   { img: previewYearly, title: "Year at a Glance", desc: "Full academic year overview with monthly themes, key milestones, and CBSE compliance calendar." },
-  { img: previewMonthly, title: "Monthly Overview & Weekly Planner", desc: "Calendar view with weekly planning tables for academic tasks, meetings, and follow-ups." },
   { img: previewActivities, title: "Activities & Holiday Calendar", desc: "World Days, Indian Holidays, and class activities from Pre-Primary to Grade 10." },
   { img: previewActionplan1, title: "Principal's Action Plan — August", desc: "Monthly action plans with 10+ tasks, principal tips, target dates, and checkboxes." },
   { img: previewActionplan2, title: "Principal's Action Plan — September", desc: "Half-yearly exams, PTM, board registrations — every critical task mapped out." },
@@ -24,6 +28,12 @@ const previews = [
   { img: previewSelfcare, title: "Self-Care & Bucket List", desc: "Personal wellness trackers for physical, mental, emotional, and spiritual well-being." },
   { img: previewPlatform, title: "AceEdX Platform Guide & Calendar", desc: "Year calendar and quick-start guide to India's smartest school OS." },
   { img: previewApril, title: "April Action Plan — 18 Tasks", desc: "Detailed action plan for academic year launch with NEP alignment and diagnostics." },
+  { img: previewExams.url, title: "Competitive Exams in India — 2027–28", desc: "Exam schedules, eligible grades, subject focus, and key application windows." },
+  { img: previewJuneHolidays.url, title: "June 2027 — World Days & Holidays", desc: "International days, Indian festivals, class activities, and parent engagement ideas." },
+  { img: previewJuneWeekly.url, title: "June 2027 — Weekly Planner", desc: "Weekly focus, priorities, and space to plan school activities and follow-ups." },
+  { img: previewAugustAction.url, title: "August 2027 — Principal's Action Plan", desc: "Independence Day preparations, half-yearly planning, sports, and compliance tasks." },
+  { img: previewOctoberHolidays.url, title: "October 2027 — World Days & Holidays", desc: "Festival planning, world days, and activities for every age group." },
+  { img: previewReckoner.url, title: "Ready Reckoner — 2027–28", desc: "Practical checklists for events, safety drills, excursions, exams, and parent meetings." },
 ];
 
 const PreviewSection = () => {
