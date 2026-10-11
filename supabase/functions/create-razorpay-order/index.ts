@@ -78,7 +78,7 @@ Deno.serve(async (req) => {
         'Authorization': `Basic ${auth}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ amount, currency, notes }),
+       body: JSON.stringify({ amount, currency, notes: { ...notes, quantity: String(quantity) } }),
     })
 
     const orderData = await orderRes.json()
@@ -105,7 +105,7 @@ Deno.serve(async (req) => {
       address: notes?.address || '',
       city: notes?.city || '',
       pincode: notes?.pincode || '',
-      quantity: parseInt(notes?.quantity || '1'),
+      quantity,
       amount,
       order_id: orderData.id,
       status: 'pending',
@@ -120,7 +120,7 @@ Deno.serve(async (req) => {
     }
 
     return new Response(
-      JSON.stringify({ orderId: orderData.id, amount: orderData.amount, currency: orderData.currency }),
+      JSON.stringify({ orderId: orderData.id, amount: orderData.amount, currency: orderData.currency, keyId }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     )
   } catch (error) {
