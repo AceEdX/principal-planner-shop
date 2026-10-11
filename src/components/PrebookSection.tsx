@@ -2,8 +2,34 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ShieldCheck, Truck, BookOpen, Gift, IndianRupee } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { Button } from "@/components/ui/button";
 
 const RAZORPAY_KEY = "rzp_live_S9yItLCPCKdBpt";
+
+type PaymentConfirmation = { paymentId: string; orderId: string; signature: string };
+
+const getCheckoutError = async (error: unknown, fallback: string) => {
+  const context = (error as { context?: Response } | null)?.context;
+  if (context instanceof Response) {
+    try {
+      const body = await context.clone().json();
+      if (typeof body.error === "string") return body.error;
+    } catch { /* Use fallback when the response is not JSON. */ }
+  }
+  return fallback;
+};
+
+const loadCheckout = async () => {
+  if ((window as any).Razorpay) return;
+  await new Promise<void>((resolve, reject) => {
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    const timeout = window.setTimeout(() => reject(new Error("Payment checkout could not load. Check your connection and try again.")), 15000);
+    script.onload = () => { window.clearTimeout(timeout); resolve(); };
+    script.onerror = () => { window.clearTimeout(timeout); reject(new Error("Payment checkout could not load. Please try again.")); };
+    document.head.appendChild(script);
+  });
+};
 
 const PrebookSection = () => {
   const [priceConfig, setPriceConfig] = useState({
@@ -17,15 +43,20 @@ const PrebookSection = () => {
 
   useEffect(() => {
     const fetchPricing = async () => {
-      const { data } = await supabase
+      try {
+      const { data, error } = await supabase
         .from("site_config")
         .select("value")
         .eq("key", "price_config")
         .single();
+      if (error || !data) throw new Error("Settings unavailable");
       if (data) {
         setPriceConfig(data.value as typeof priceConfig);
       }
       setConfigLoaded(true);
+      } catch {
+        setPaymentError("Unable to load booking settings. Please refresh and try again.");
+      }
     };
     fetchPricing();
   }, []);
@@ -42,6 +73,25 @@ const PrebookSection = () => {
   });
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [paymentError, setPaymentError] = useState("");
+  const [confirmation, setConfirmation] = useState<PaymentConfirmation | null>(null);
+
+  const confirmPayment = async (details: PaymentConfirmation) => {
+    setLoading(true);
+    setPaymentError("");
+    try {
+      const { data, error } = await supabase.functions.invoke('send-order-email', { body: details });
+      if (error || !data?.success) {
+        throw new Error(await getCheckoutError(error, data?.error || "Unable to verify the payment right now."));
+      }
+      setConfirmation(null);
+      setSuccess(true);
+    } catch {
+      setPaymentError(`Payment confirmation is pending for ${details.orderId}. If money was debited, do not pay again. Retry confirmation below or contact AceEdX with payment ID ${details.paymentId}.`);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const totalAmount = priceConfig.salePrice * formData.quantity;
   const savings = (priceConfig.originalPrice - priceConfig.salePrice) * formData.quantity;
@@ -55,66 +105,66 @@ const PrebookSection = () => {
   };
 
   const handlePayment = async () => {
+    if (loading || confirmation || !configLoaded) return;
+    setPaymentError("");
     if (!priceConfig.prebookingOpen) {
-      alert("Orders are no longer accepted for this Handbook and Planner.");
+      setPaymentError("Orders are no longer accepted for this Handbook and Planner.");
       return;
     }
     if (!formData.name || !formData.email || !formData.phone || !formData.address || !formData.city || !formData.pincode) {
-      alert("Please fill in all required fields (name, email, phone, address, city, pincode).");
+      setPaymentError("Please fill in all required fields (name, email, phone, address, city, pincode).");
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim()) || !/^\d{6}$/.test(formData.pincode.trim())) {
+      setPaymentError("Please enter a valid email address and six-digit pincode.");
+      return;
+    }
+    if (formData.quantity > 50 || formData.address.trim().length < 5 || formData.city.trim().length < 2) {
+      setPaymentError("Please check your address, city, and quantity (1–50 copies).");
       return;
     }
 
     setLoading(true);
 
     try {
+      await loadCheckout();
       // Create order on server
       const { data: orderData, error: orderError } = await supabase.functions.invoke('create-razorpay-order', {
         body: {
           currency: 'INR',
           quantity: formData.quantity,
           notes: {
-            name: formData.name,
-            email: formData.email,
-            phone: formData.phone,
+            name: formData.name.trim(),
+            email: formData.email.trim(),
+            phone: formData.phone.trim(),
             school: formData.school,
             address: formData.address,
             city: formData.city,
-            pincode: formData.pincode,
+            pincode: formData.pincode.trim(),
             quantity: formData.quantity.toString(),
           },
         },
       });
 
       if (orderError || !orderData?.orderId) {
-        throw new Error(orderData?.error || 'Failed to create order');
+        throw new Error(await getCheckoutError(orderError, orderData?.error || 'Failed to create order. Please try again.'));
       }
 
       const options = {
-        key: RAZORPAY_KEY,
+        key: orderData.keyId || RAZORPAY_KEY,
         amount: orderData.amount,
         currency: orderData.currency,
         order_id: orderData.orderId,
         name: "AceEdX",
         description: `Principal's Handbook & Planner 2027-28 (x${formData.quantity})`,
         handler: async function (response: any) {
-          // Update order status to paid
-          await supabase.functions.invoke('send-order-email', {
-            body: {
-              name: formData.name,
-              email: formData.email,
-              quantity: formData.quantity,
-              amount: totalAmount * 100,
-              address: formData.address,
-              city: formData.city,
-              pincode: formData.pincode,
-              school: formData.school,
-              paymentId: response.razorpay_payment_id,
-              orderId: orderData.orderId,
-              signature: response.razorpay_signature,
-            },
-          });
-          setSuccess(true);
-          setLoading(false);
+          const details = {
+            paymentId: response.razorpay_payment_id,
+            orderId: orderData.orderId,
+            signature: response.razorpay_signature,
+          };
+          setConfirmation(details);
+          await confirmPayment(details);
         },
         prefill: {
           name: formData.name,
@@ -139,9 +189,13 @@ const PrebookSection = () => {
       };
 
       const rzp = new (window as any).Razorpay(options);
+      rzp.on('payment.failed', (response: any) => {
+        setPaymentError(response.error?.description || "Payment was not completed. Please try another payment method.");
+        setLoading(false);
+      });
       rzp.open();
     } catch (err: any) {
-      alert(err.message || "Payment gateway error. Please refresh and try again.");
+      setPaymentError(err.message || "Payment gateway error. Please refresh and try again.");
       setLoading(false);
     }
   };
@@ -163,7 +217,6 @@ const PrebookSection = () => {
             </h2>
             <p className="font-body text-muted-foreground text-lg">
               Thank you, {formData.name}! Your copy of the Principal's Handbook & Planner is reserved.
-              We'll send details to {formData.email}.
             </p>
             <p className="font-body text-sm text-muted-foreground mt-2">
               Shipping to: {formData.address}, {formData.city} — {formData.pincode}
@@ -378,9 +431,15 @@ const PrebookSection = () => {
               />
             </div>
 
-            <button
+            {paymentError && <p role="alert" className="font-body text-sm text-destructive">{paymentError}</p>}
+            {confirmation && (
+              <Button onClick={() => confirmPayment(confirmation)} disabled={loading} className="w-full">
+                {loading ? "Verifying payment..." : "Retry payment confirmation"}
+              </Button>
+            )}
+            <Button
               onClick={handlePayment}
-              disabled={loading || !priceConfig.prebookingOpen}
+              disabled={loading || !configLoaded || !priceConfig.prebookingOpen || Boolean(confirmation)}
               className="w-full gradient-orange text-primary-foreground font-body font-bold text-lg py-4 rounded-lg shadow-orange hover:scale-[1.02] transition-transform disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading
@@ -388,7 +447,7 @@ const PrebookSection = () => {
                 : priceConfig.prebookingOpen
                 ? `Pre-Book Now — Limited Copies! — ₹${totalAmount}`
                 : "Pre-Booking Closed"}
-            </button>
+            </Button>
 
             <p className="font-body text-xs text-center text-muted-foreground">
               🔒 100% secure payment via Razorpay. Your data is safe with us.
