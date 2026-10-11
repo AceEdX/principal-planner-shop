@@ -1,4 +1,5 @@
 # Roadmap
+- [ ] Diagnose and repair order creation, checkout errors, and payment confirmation; verify without charging money.
 
 - [x] Verify admin password rejection remains on the sign-in page with a clear error and retry enabled.
 
