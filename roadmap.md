@@ -1,5 +1,5 @@
 # Roadmap
-- [ ] Diagnose and repair order creation, checkout errors, and payment confirmation; verify without charging money.
+- [x] Diagnose and repair order creation, checkout errors, and payment confirmation; verify without charging money.
 
 - [x] Verify admin password rejection remains on the sign-in page with a clear error and retry enabled.
 
@@ -8,6 +8,6 @@
 - [x] Update edition text, pricing, metadata, and restrained orange accents.
 - [x] Keep pre-booking open without a deadline or countdown.
 - [x] Deploy and verify server-authoritative Razorpay order creation.
-- [ ] Verify signed payment confirmation with a completed payment.
+- [ ] Verify signed payment confirmation with a completed payment (requires an actual customer payment; no money charged during diagnostics).
 - [ ] Verify the landing page on desktop and mobile.
 - [ ] Configure owner order emails after the AceEdX sender domain is connected.
