@@ -78,7 +78,10 @@ Deno.serve(async (req) => {
         'Authorization': `Basic ${auth}`,
         'Content-Type': 'application/json',
       },
-       body: JSON.stringify({ amount, currency, notes: { ...notes, quantity: String(quantity) } }),
+       body: JSON.stringify({
+         amount, currency,
+         notes: Object.fromEntries(Object.entries({ ...notes, quantity: String(quantity) }).map(([key, value]) => [key, value.slice(0, 256)])),
+       }),
     })
 
     const orderData = await orderRes.json()
