@@ -32,12 +32,12 @@ const Navbar = () => {
               {l.label}
             </a>
           ))}
-          <a
+          <Button asChild variant="secondary"><a
             href="#prebook"
-            className="gradient-gold text-navy font-body font-bold text-sm px-5 py-2 rounded-lg hover:scale-105 transition-transform"
+            className="font-bold"
           >
             Pre-Book
-          </a>
+          </a></Button>
         </div>
 
         <Button variant="ghost" size="icon" className="md:hidden text-foreground" aria-label={open ? "Close navigation" : "Open navigation"} aria-expanded={open} onClick={() => setOpen(!open)}>
@@ -57,13 +57,13 @@ const Navbar = () => {
               {l.label}
             </a>
           ))}
-          <a
+          <Button asChild variant="secondary" className="w-full"><a
             href="#prebook"
             onClick={() => setOpen(false)}
-            className="block gradient-gold text-navy font-body font-bold text-center py-2 rounded-lg"
+            className="font-bold"
           >
             Pre-Book
-          </a>
+          </a></Button>
         </div>
       )}
     </nav>
