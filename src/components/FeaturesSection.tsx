@@ -1,36 +1,38 @@
 import { motion } from "framer-motion";
 import { BookOpen, Calendar, Users, CheckCircle, Target, Shield } from "lucide-react";
 
+import { PRODUCT } from "@/lib/product";
+
 const features = [
   {
     icon: BookOpen,
-    title: "Comprehensive Guidance",
-    desc: "Practical strategies and best practices for effective school leadership, aligned with NEP 2020.",
+    title: "Plan Your Monthly Priorities",
+    desc: "Use monthly action plans to organise important tasks and prepare ahead.",
   },
   {
     icon: Calendar,
-    title: "Year-Long Planning",
-    desc: "Monthly overviews, weekly planners, and structured planning pages from April 2027 to March 2028.",
+    title: "Structure Your Working Week",
+    desc: "Use weekly planning pages to organise meetings, follow-ups, and leadership priorities.",
   },
   {
     icon: Users,
-    title: "Lead With Impact",
-    desc: "Resources and insights to inspire your school community, staff, and drive academic excellence.",
+    title: "Keep Academic Leadership in Focus",
+    desc: "Use practical guidance to support academic planning and conversations with your team.",
   },
   {
     icon: CheckCircle,
-    title: "CBSE Compliance Ready",
-    desc: "Complete CBSE compliance calendar, inspection checklists, and regulatory deadlines built in.",
+    title: "Prepare for Compliance Reviews",
+    desc: "Use inspection and compliance checklists to organise documents and identify items requiring attention.",
   },
   {
     icon: Target,
-    title: "Activity Planner",
-    desc: "World Days, Indian Holidays, class activities, and co-curricular event planning for every month.",
+    title: "Coordinate School Activities",
+    desc: "Plan school events, activities, and important observances using the calendar pages.",
   },
   {
     icon: Shield,
-    title: "Self-Care & Wellness",
-    desc: "Dedicated sections for personal goals, self-care checklists, travel bucket lists, and reflection.",
+    title: "Make Time for Reflection",
+    desc: "Use reflection and self-care sections to review your priorities and personal wellbeing.",
   },
 ];
 
@@ -43,14 +45,14 @@ const FeaturesSection = () => (
         viewport={{ once: true }}
         className="text-center mb-16"
       >
-        <span className="font-body text-sm font-semibold text-gold tracking-widest uppercase">
+        <span className="font-body text-sm font-semibold text-primary uppercase">
           Everything You Need
         </span>
         <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-navy mt-3">
-          Why Principals Love This Planner
+          Practical Support for Your Everyday School Leadership
         </h2>
         <p className="font-body text-muted-foreground mt-4 max-w-2xl mx-auto text-lg">
-          Designed exclusively for school principals who want to plan smarter, lead better, and make every day count.
+          Monthly priorities, weekly plans and practical guidance for April 2027 to April 2028, inclusive.
         </p>
       </motion.div>
 
@@ -62,16 +64,18 @@ const FeaturesSection = () => (
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: i * 0.1 }}
-            className="bg-card rounded-xl p-8 shadow-navy/5 shadow-lg hover:shadow-xl transition-shadow border border-border group"
+            className="bg-card rounded-lg p-8 shadow-navy/5 shadow-lg hover:shadow-xl transition-shadow border border-border group"
           >
-            <div className="w-14 h-14 rounded-xl gradient-gold flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+            <div className="w-14 h-14 rounded-lg gradient-gold flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
               <f.icon className="w-7 h-7 text-navy" />
             </div>
             <h3 className="font-display text-xl font-bold text-navy mb-3">{f.title}</h3>
             <p className="font-body text-muted-foreground leading-relaxed">{f.desc}</p>
+            {f.title === "Prepare for Compliance Reviews" && <p className="text-sm text-muted-foreground mt-4">Provisional — verify against the latest CBSE circular.</p>}
           </motion.div>
         ))}
       </div>
+      <p className="text-sm text-muted-foreground leading-relaxed border-l-2 border-gold pl-4 mt-8 max-w-4xl">{PRODUCT.compliance}</p>
     </div>
   </section>
 );
