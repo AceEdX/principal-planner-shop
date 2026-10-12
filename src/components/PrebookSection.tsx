@@ -328,7 +328,7 @@ const PrebookSection = () => {
 
           {/* Form */}
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             className="space-y-4"
@@ -375,7 +375,7 @@ const PrebookSection = () => {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label className="font-body text-sm font-medium text-foreground block mb-1">
+                <label htmlFor="city" className="font-body text-sm font-medium text-foreground block mb-1">
                   City *
                 </label>
                 <input
@@ -389,7 +389,7 @@ const PrebookSection = () => {
                 />
               </div>
               <div>
-                <label className="font-body text-sm font-medium text-foreground block mb-1">
+                <label htmlFor="pincode" className="font-body text-sm font-medium text-foreground block mb-1">
                   Pincode *
                 </label>
                 <input

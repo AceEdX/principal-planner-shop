@@ -9,7 +9,7 @@ export function BookingProvider({ children }: { children: ReactNode }) {
   const [configError, setConfigError] = useState("");
   const [overlayOpen, setOverlayOpen] = useState(false);
   useEffect(() => {
-    supabase.from("site_config").select("value").eq("key", "price_config").single().then(({ data, error }) => {
+    Promise.resolve(supabase.from("site_config").select("value").eq("key", "price_config").single()).then(({ data, error }) => {
       if (error || !data) { setConfigError("Unable to load booking settings. Please refresh and try again."); return; }
       setPriceConfig(data.value as typeof initial); setConfigLoaded(true);
     }).catch(() => setConfigError("Unable to load booking settings. Please refresh and try again."));
