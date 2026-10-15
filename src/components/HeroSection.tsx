@@ -44,7 +44,7 @@ const HeroSection = () => {
             </h1>
 
             <p className="font-body text-lg md:text-xl opacity-90 mb-4 max-w-lg leading-relaxed">
-              Your complete leadership companion — plan, lead, and inspire with India's most comprehensive school management planner.
+              Your complete leadership companion — plan, lead, and inspire with India's most comprehensive School Management Planner.
             </p>
 
             <p className="font-body text-sm text-gold-light mb-8 font-medium">
@@ -73,7 +73,7 @@ const HeroSection = () => {
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-gold" />
-                <span>CBSE Aligned</span>
+                <span>CBSE & State Board Aligned</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-gold" />

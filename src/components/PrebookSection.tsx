@@ -248,7 +248,7 @@ const PrebookSection = () => {
             Pre-Book Today & Save
           </h2>
           <p className="font-body text-muted-foreground mt-4 max-w-xl mx-auto">
-            Limited copies available. Pre-book now to secure your planner at the special launch price.
+            Limited copies available. Pre-book now to secure your Handbook & Planner at the special  price.
           </p>
         </motion.div>
 
