@@ -48,7 +48,7 @@ const POLICIES: Policy[] = [
       "Free shipping across India is included in the pre-booking price — no additional delivery charges.",
       "Each order is dispatched to the shipping address provided at the time of booking. Please ensure your address, city, and pincode are accurate.",
       "Dispatch timelines depend on the date of your order and the printing schedule. You will be informed once your copy is dispatched.",
-      "For any delivery-related queries, contact us at +91 9373387800 or aceedx1@gmail.com.",
+      "For any delivery-related queries, contact us at +91 9373387800 or helpdesk@aceedx.com.",
     ],
   },
   {
