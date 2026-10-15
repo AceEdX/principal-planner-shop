@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import aceedxLogo from "@/assets/aceedx-logo.png";
 
@@ -13,11 +12,11 @@ const Navbar = () => {
   const [open, setOpen] = useState(false);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-card/95 backdrop-blur-md border-b border-gold/10">
+    <nav className="fixed top-0 left-0 right-0 z-50 gradient-navy/95 backdrop-blur-md border-b border-gold/10">
       <div className="container mx-auto px-4 flex items-center justify-between h-16">
         <a href="#" className="flex items-center gap-2">
           <img src={aceedxLogo} alt="AceEdX" className="w-9 h-9 rounded-lg" />
-          <span className="font-display text-lg font-bold text-foreground hidden sm:block">
+          <span className="font-display text-lg font-bold text-primary-foreground hidden sm:block">
             AceEdX
           </span>
         </a>
@@ -27,43 +26,43 @@ const Navbar = () => {
             <a
               key={l.href}
               href={l.href}
-              className="font-body text-sm text-foreground hover:text-primary transition-colors"
+              className="font-body text-sm text-primary-foreground/80 hover:text-gold transition-colors"
             >
               {l.label}
             </a>
           ))}
-          <Button asChild variant="secondary"><a
+          <a
             href="#prebook"
-            className="font-bold"
+            className="gradient-gold text-navy font-body font-bold text-sm px-5 py-2 rounded-lg hover:scale-105 transition-transform"
           >
-            Pre-Book
-          </a></Button>
+            Order Now
+          </a>
         </div>
 
-        <Button variant="ghost" size="icon" className="md:hidden text-foreground" aria-label={open ? "Close navigation" : "Open navigation"} aria-expanded={open} onClick={() => setOpen(!open)}>
+        <button className="md:hidden text-primary-foreground" onClick={() => setOpen(!open)}>
           {open ? <X /> : <Menu />}
-        </Button>
+        </button>
       </div>
 
       {open && (
-        <div className="md:hidden bg-card border-t border-gold/10 px-4 py-4 space-y-3">
+        <div className="md:hidden gradient-navy border-t border-gold/10 px-4 py-4 space-y-3">
           {links.map((l) => (
             <a
               key={l.href}
               href={l.href}
               onClick={() => setOpen(false)}
-              className="block font-body text-foreground hover:text-primary"
+              className="block font-body text-primary-foreground/80 hover:text-gold"
             >
               {l.label}
             </a>
           ))}
-          <Button asChild variant="secondary" className="w-full"><a
+          <a
             href="#prebook"
             onClick={() => setOpen(false)}
-            className="font-bold"
+            className="block gradient-gold text-navy font-body font-bold text-center py-2 rounded-lg"
           >
-            Pre-Book
-          </a></Button>
+            Order Now
+          </a>
         </div>
       )}
     </nav>
