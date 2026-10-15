@@ -66,7 +66,7 @@ const POLICIES: Policy[] = [
     label: "Contact Us",
     title: "Contact Us",
     body: [
-      "AceEdX — Powering Education Systems",
+      "AceEdX — Powering Education Ecosystems",
       "Phone / WhatsApp: +91 9373387800",
       "Email: helpdesk@aceedx.com",
       "Website: www.aceedx.com",
