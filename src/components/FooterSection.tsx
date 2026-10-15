@@ -37,7 +37,7 @@ const POLICIES: Policy[] = [
       "Once the book has been dispatched, cancellations are not accepted.",
       "If you receive a damaged or defective copy, contact us within 7 days of delivery with photographs, and we will replace the copy or issue a full refund at no extra cost.",
       "Approved refunds are processed to the original payment method within 5–7 business days through Razorpay.",
-      "To request a cancellation or refund, call or WhatsApp us at +91 9373387800 or email aceedx1@gmail.com with your order ID and payment ID.",
+      "To request a cancellation or refund, call or WhatsApp us at +91 9373387800 or email helpdesk@aceedx.com with your order ID and payment ID.",
     ],
   },
   {
