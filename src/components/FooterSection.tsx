@@ -59,7 +59,7 @@ const POLICIES: Policy[] = [
       "Your details are used solely to process your pre-booking, deliver your Handbook & Planner, and communicate order updates.",
       "Payment information is processed securely by Razorpay. We never see or store your card, UPI, or banking credentials.",
       "We do not sell, rent, or share your personal information with third parties except as required to deliver your order (e.g., courier partners) or by law.",
-      "You may request access to or deletion of your personal data by contacting aceedx1@gmail.com.",
+      "You may request access to or deletion of your personal data by contacting helpdesk@aceedx.com.",
     ],
   },
   {
