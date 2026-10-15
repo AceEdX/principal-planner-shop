@@ -10,7 +10,7 @@ const features = [
   {
     icon: Calendar,
     title: "Year-Long Planning",
-    desc: "Monthly overviews, weekly planners, and structured planning pages from April 2027 to March 2028.",
+    desc: "Monthly overviews, weekly planners, and structured planning pages from April 2027 to April 2028.",
   },
   {
     icon: Users,
