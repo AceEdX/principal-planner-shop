@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { ArrowDown, Star } from "lucide-react";
-import book2027 from "@/assets/principal-handbook-2027-28.jpeg.asset.json";
+import book2027 from "@/assets/principal-handbook-2027-28.png.asset.json";
 
 const HeroSection = () => {
   const scrollToPrebook = () => {
